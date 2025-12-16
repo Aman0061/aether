@@ -146,7 +146,7 @@ const StudioPage = () => {
             <div className="fade-in-up delay-200 hover-trigger">
               <div className="img-container aspect-square mb-6">
                 <img
-                  src="https://images.unsplash.com/photo-1617159503923-57c2a715c026?q=80&w=800&auto=format&fit=crop"
+                  src="/images/wood.jpg"
                   alt="Wood Detail"
                   className="w-full h-full object-cover img-zoom"
                 />
