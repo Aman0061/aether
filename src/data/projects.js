@@ -40,7 +40,7 @@ export const projectsData = [
       category: 'Architecture',
       area: '350 м²',
       location: 'Moscow Region',
-      preview: '/images/modernHouse/8.png',
+      preview: '/images/modernHouse/8.jpg',
       aspect: 'aspect-[3/4]',
       delay: 'delay-100',
       images: [
