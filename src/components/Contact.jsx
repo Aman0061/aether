@@ -2,9 +2,10 @@ import { useState } from 'react'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
 
 const Contact = () => {
-  // 1. Используем наш хук для анимации
   const contactRef = useScrollAnimation()
   
+  // Состояния для формы и статуса отправки
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -13,12 +14,12 @@ const Contact = () => {
     details: '',
   })
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    // Здесь будет логика отправки (например, в Telegram или на почту)
-    console.log('Form submitted:', formData)
-    alert('Спасибо! Мы свяжемся с вами в ближайшее время.')
-  }
+  // -------------------------------------------------------------------------
+  // НАСТРОЙКИ TELEGRAM
+  // -------------------------------------------------------------------------
+  const TG_BOT_TOKEN = '8227356630:AAEF6lzCccHU_frM04GpS5AXkP-0iU2lCBU'
+  const TG_CHAT_ID = '5221925241' // Твой ID уже здесь
+  // -------------------------------------------------------------------------
 
   const handleChange = (e) => {
     setFormData({
@@ -27,9 +28,60 @@ const Contact = () => {
     })
   }
 
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setIsSubmitting(true) // Блокируем кнопку
+
+    // Формируем красивое сообщение (HTML разметка для Телеграм)
+    const message = `
+<b>🔔 Новая заявка с сайта!</b>
+
+<b>👤 Имя:</b> ${formData.name}
+<b>📱 Телефон:</b> ${formData.phone}
+<b>📧 Email:</b> ${formData.email || 'Не указан'}
+<b>🏠 Тип объекта:</b> ${formData.type || 'Не указан'}
+
+<b>📝 Детали:</b>
+${formData.details || 'Без комментариев'}
+    `
+
+    try {
+      // Отправляем запрос в Telegram
+      const response = await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          chat_id: TG_CHAT_ID,
+          text: message,
+          parse_mode: 'HTML', // Чтобы работала жирность шрифта
+        }),
+      })
+
+      if (response.ok) {
+        alert('Заявка успешно отправлена! Мы скоро свяжемся с вами.')
+        // Очищаем форму
+        setFormData({
+          name: '',
+          phone: '',
+          email: '',
+          type: '',
+          details: '',
+        })
+      } else {
+        alert('Ошибка при отправке. Попробуйте написать нам в WhatsApp.')
+        console.error('Telegram Error:', await response.text())
+      }
+    } catch (error) {
+      console.error('Network Error:', error)
+      alert('Ошибка сети. Проверьте интернет.')
+    } finally {
+      setIsSubmitting(false) // Разблокируем кнопку
+    }
+  }
+
   return (
-    // Убрали внешнюю обертку и Navbar.
-    // min-h-screen нужен, чтобы на больших экранах контент был по центру вертикально.
     <section
       ref={contactRef}
       className="min-h-screen pt-32 pb-12 px-6 md:px-12 flex flex-col md:justify-center max-w-[1600px] mx-auto"
@@ -45,10 +97,10 @@ const Contact = () => {
 
             <div className="space-y-6">
               <a
-                href="tel:+79990000000"
+                href="tel:+996551968818"
                 className="block text-3xl md:text-4xl lg:text-5xl font-light text-neutral-900 hover:opacity-60 transition-opacity font-sans tracking-tight"
               >
-                +7 (999) 000-00-00
+                +(996) 551-968-818
               </a>
               <a
                 href="mailto:hello@aether.com"
@@ -65,7 +117,7 @@ const Contact = () => {
                 Адрес
               </span>
               <p className="text-sm font-light leading-relaxed text-neutral-600">
-                Москва, Россия
+                Бишкек, Кыргызстан
                 <br />
                 Пресненская наб., 12
                 <br />
@@ -78,13 +130,8 @@ const Contact = () => {
               </span>
               <ul className="space-y-2 text-sm font-light text-neutral-600">
                 <li>
-                  <a href="#" className="hover:text-black transition-colors">
+                  <a href="https://www.instagram.com/vimana__architects/" target="_blank" rel="noreferrer" className="hover:text-black transition-colors">
                     Instagram
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-black transition-colors">
-                    Pinterest
                   </a>
                 </li>
                 <li>
@@ -110,6 +157,7 @@ const Contact = () => {
                   className="minimal-input"
                   value={formData.name}
                   onChange={handleChange}
+                  disabled={isSubmitting}
                 />
               </div>
               <div className="group">
@@ -121,6 +169,7 @@ const Contact = () => {
                   className="minimal-input"
                   value={formData.phone}
                   onChange={handleChange}
+                  disabled={isSubmitting}
                 />
               </div>
             </div>
@@ -133,6 +182,7 @@ const Contact = () => {
                 className="minimal-input"
                 value={formData.email}
                 onChange={handleChange}
+                disabled={isSubmitting}
               />
             </div>
 
@@ -144,6 +194,7 @@ const Contact = () => {
                 className="minimal-input"
                 value={formData.type}
                 onChange={handleChange}
+                disabled={isSubmitting}
               />
             </div>
 
@@ -155,23 +206,24 @@ const Contact = () => {
                 className="minimal-input resize-none"
                 value={formData.details}
                 onChange={handleChange}
+                disabled={isSubmitting}
               ></textarea>
             </div>
 
             <div className="pt-12 flex justify-start">
               <button
                 type="submit"
-                className="btn-hover bg-black text-white text-xs uppercase tracking-[0.2em] px-12 py-5 hover:bg-neutral-800 transition-colors duration-300 w-full md:w-auto"
+                disabled={isSubmitting}
+                className={`btn-hover bg-black text-white text-xs uppercase tracking-[0.2em] px-12 py-5 transition-all duration-300 w-full md:w-auto ${
+                  isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-neutral-800'
+                }`}
               >
-                Отправить заявку
+                {isSubmitting ? 'Отправка...' : 'Отправить заявку'}
               </button>
             </div>
           </form>
         </div>
       </div>
-      
-      {/* Footer внутри страницы убран, так как есть глобальный Footer в App.js. 
-          Если нужен специфический отступ снизу, его дает padding-bottom у section */}
     </section>
   )
 }

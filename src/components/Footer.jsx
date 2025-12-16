@@ -19,21 +19,21 @@ const Footer = () => {
           <div className="grid grid-cols-2 gap-8 text-sm font-light">
             <div>
               <h5 className="uppercase tracking-[0.2em] mb-6 text-neutral-400 text-xs">Студия</h5>
-              <p className="mb-1">Москва</p>
-              <p className="mb-1">Россия</p>
-              <p>+7 (999) 000-00-00</p>
+              <p className="mb-1">Бишкек</p>
+              <p className="mb-1">Кыргызстан</p>
+              <p>+(996) 551-968-818</p>
             </div>
             <div>
               <h5 className="uppercase tracking-[0.2em] mb-6 text-neutral-400 text-xs">Социальные сети</h5>
               <ul className="space-y-2">
                 <li>
-                  <a href="#" className="hover:text-neutral-500 transition-colors">
+                  <a href="https://www.instagram.com/vimana__architects/" className="hover:text-neutral-500 transition-colors">
                     Instagram
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-neutral-500 transition-colors">
-                    Pinterest
+                  <a href="https://api.whatsapp.com/send?phone=996551968818&utm_campaign=wa_phone_number_xma&source_surface=45" className="hover:text-neutral-500 transition-colors">
+                    Whats App
                   </a>
                 </li>
                 <li>
@@ -46,7 +46,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="flex flex-col md:flex-row justify-between items-center text-[10px] uppercase tracking-widest text-neutral-400 border-t border-neutral-200 pt-8">
-          <p>&copy; 2024 Aether Studio. Все права защищены.</p>
+          <p>&copy; 2025 Vimana Architects. Все права защищены.</p>
           <div className="mt-4 md:mt-0 space-x-6">
             <a href="#" className="hover:text-neutral-600">
               Конфиденциальность

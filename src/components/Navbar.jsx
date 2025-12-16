@@ -85,7 +85,7 @@ const Navbar = () => {
           to="/"
           className={`text-2xl tracking-[0.2em] font-light z-50 transition-colors ${baseTextColorClass}`}
         >
-          AETHER
+          VIMANA
         </Link>
 
         {/* Desktop Menu */}
