@@ -2,191 +2,138 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom Font Assignments */
-.font-serif { 
-  font-family: 'Cormorant Garamond', serif; 
+/* Шрифты и база */
+/* @layer base помогает применить шрифты ко всему проекту по умолчанию */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    font-family: 'Manrope', sans-serif; /* Шрифт по умолчанию для всего тела */
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cormorant Garamond', serif; /* Заголовки с засечками */
+  }
 }
 
-.font-sans { 
-  font-family: 'Manrope', sans-serif; 
+/* Утилиты */
+@layer utilities {
+  .font-serif { 
+    font-family: 'Cormorant Garamond', serif; 
+  }
+
+  .font-sans { 
+    font-family: 'Manrope', sans-serif; 
+  }
+
+  .text-balance { 
+    text-wrap: balance; 
+  }
+
+  /* Анимации появления */
+  .fade-in-up {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  }
+
+  .fade-in-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Зум картинок */
+  .img-zoom-container {
+    overflow: hidden;
+  }
+  
+  .img-zoom {
+    transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .group:hover .img-zoom {
+    transform: scale(1.05);
+  }
+  
+  /* Скрытие скроллбара */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
 
-/* Smooth Scrolling */
-html { 
-  scroll-behavior: smooth; 
+/* Components (Сложные составные элементы) */
+@layer components {
+  /* Navigation Line Animation */
+  .nav-link {
+    position: relative;
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: -4px;
+    left: 0;
+    background-color: currentColor;
+    transition: width 0.3s ease;
+  }
+
+  .nav-link:hover::after {
+    width: 100%;
+  }
+
+  /* Minimalist Input Styling */
+  .minimal-input {
+    @apply w-full bg-transparent border-b border-[#e5e5e5] py-6 text-base font-light text-[#171717] transition-all duration-300 outline-none rounded-none;
+    font-family: 'Manrope', sans-serif;
+  }
+
+  .minimal-input::placeholder {
+    @apply text-[#a3a3a3] font-light opacity-100;
+  }
+
+  .minimal-input:focus {
+    @apply border-[#171717] pl-[10px];
+  }
 }
 
-/* Custom Utilities */
-.text-balance { 
-  text-wrap: balance; 
-}
+/* Остальные стили можно оставить как есть или тоже распределить */
+.fade-in-up.delay-100 { transition-delay: 0.1s; }
+.fade-in-up.delay-150 { transition-delay: 0.15s; }
+.fade-in-up.delay-200 { transition-delay: 0.2s; }
+.fade-in-up.delay-300 { transition-delay: 0.3s; }
 
-/* Subtle Fade In Animation */
-.fade-in-up {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-}
-
-.fade-in-up.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.fade-in-up.delay-100 {
-  transition-delay: 0.1s;
-}
-
-.fade-in-up.delay-150 {
-  transition-delay: 0.15s;
-}
-
-.fade-in-up.delay-200 {
-  transition-delay: 0.2s;
-}
-
-.fade-in-up.delay-300 {
-  transition-delay: 0.3s;
-}
-
-/* Image Hover Zoom */
-.img-zoom-container {
-  overflow: hidden;
-}
-
-.img-zoom {
-  transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.group:hover .img-zoom {
-  transform: scale(1.05);
-}
-
-.hover-trigger:hover .img-zoom {
-  transform: scale(1.05);
-}
-
-/* Navigation Line Animation */
-.nav-link {
-  position: relative;
-}
-
-.nav-link::after {
-  content: '';
-  position: absolute;
-  width: 0;
-  height: 1px;
-  bottom: -4px;
-  left: 0;
-  background-color: currentColor;
-  transition: width 0.3s ease;
-}
-
-.nav-link:hover::after {
-  width: 100%;
-}
-
-/* Minimalist Input Styling */
-.minimal-input {
-  width: 100%;
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid #e5e5e5;
-  padding: 1.5rem 0;
-  font-family: 'Manrope', sans-serif;
-  font-size: 1rem;
-  font-weight: 300;
-  color: #171717;
-  transition: border-color 0.4s ease, padding 0.4s ease;
-  outline: none;
-  border-radius: 0;
-}
-
-.minimal-input::placeholder {
-  color: #a3a3a3;
-  font-weight: 300;
-  opacity: 1;
-}
-
-.minimal-input:focus {
-  border-bottom: 1px solid #171717;
-  padding-left: 10px;
-}
-
-/* Button Hover Effect */
-.btn-hover {
-  position: relative;
-  overflow: hidden;
-}
-
-.btn-hover::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.1);
-  transition: transform 0.4s ease;
-  transform: skewX(-20deg);
-}
-
-.btn-hover:hover::before {
-  left: 100%;
-  transition: left 0.6s ease;
-}
-
-/* Accordion Transition */
+/* Accordion и прочее (оставляем глобально, так как это сложная логика) */
 .accordion-content {
-  transition: grid-template-rows 0.5s ease-out, padding-bottom 0.5s ease;
   display: grid;
-  grid-template-rows: 0fr;
-  overflow: hidden;
+  grid-template-rows: 0px;
+  transition: grid-template-rows 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden; /* Обязательно скрываем то, что не влазит */
 }
 
 .accordion-content.open {
   grid-template-rows: 1fr;
-  padding-bottom: 3rem;
 }
 
 .accordion-inner {
-  min-height: 0;
+  min-height: 0; /* КРИТИЧЕСКИ ВАЖНО: позволяет сжимать блок в 0 */
+  opacity: 0;    /* Скрываем текст */
+  transform: translateY(10px); /* Небольшой сдвиг для красоты */
+  visibility: hidden; /* Убираем из доступа, чтобы нельзя было выделить */
+  transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
 }
 
-/* Icon Rotation */
-.accordion-icon {
-  transition: transform 0.3s ease;
-}
-
-.group[data-state="open"] .accordion-icon {
-  transform: rotate(45deg);
-}
-
-/* Hover Reveal */
-.hover-reveal-img {
-  opacity: 0;
-  transform: scale(0.95);
-  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.accordion-content.open .hover-reveal-img {
-  opacity: 1;
-  transform: scale(1);
-}
-
-/* Image Container */
-.img-container {
-  overflow: hidden;
-  background-color: #f0f0f0;
-}
-
-/* No Scrollbar */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
+.accordion-content.open .accordion-inner {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+    transition-delay: 0.1s; /* Текст появляется чуть позже начала раскрытия */
+  }

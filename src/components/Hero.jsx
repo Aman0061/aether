@@ -1,27 +1,8 @@
-import { useEffect, useRef } from 'react'
+import { Link } from 'react-router-dom' // Импорт Link
+import { useScrollAnimation } from '../hooks/useScrollAnimation' // Импорт нашего хука
 
 const Hero = () => {
-  const heroRef = useRef(null)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible')
-          }
-        })
-      },
-      { threshold: 0.1 }
-    )
-
-    const elements = heroRef.current?.querySelectorAll('.fade-in-up')
-    elements?.forEach((el) => observer.observe(el))
-
-    return () => {
-      elements?.forEach((el) => observer.unobserve(el))
-    }
-  }, [])
+  const heroRef = useScrollAnimation()
 
   return (
     <header ref={heroRef} className="relative h-screen w-full overflow-hidden">
@@ -47,8 +28,10 @@ const Hero = () => {
           <span className="italic">Симметрия</span>
         </h1>
         <div className="fade-in-up mt-12 delay-200">
+          {/* Здесь можно использовать Link, если 'projects' это отдельная страница, 
+              или <a> если это якорь на этой же странице. Оставим Link для универсальности. */}
           <a
-            href="#projects"
+            href="#projects" 
             className="inline-block border border-white/30 px-8 py-3 text-xs tracking-[0.2em] uppercase hover:bg-white hover:text-black transition-all duration-500 backdrop-blur-sm"
           >
             Смотреть портфолио
@@ -60,4 +43,3 @@ const Hero = () => {
 }
 
 export default Hero
-

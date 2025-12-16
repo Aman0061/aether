@@ -1,27 +1,7 @@
-import { useEffect, useRef } from 'react'
+import { useScrollAnimation } from '../hooks/useScrollAnimation'
 
 const Services = () => {
-  const servicesRef = useRef(null)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible')
-          }
-        })
-      },
-      { threshold: 0.1 }
-    )
-
-    const elements = servicesRef.current?.querySelectorAll('.fade-in-up')
-    elements?.forEach((el) => observer.observe(el))
-
-    return () => {
-      elements?.forEach((el) => observer.unobserve(el))
-    }
-  }, [])
+  const servicesRef = useScrollAnimation()
 
   return (
     <section
@@ -67,4 +47,3 @@ const Services = () => {
 }
 
 export default Services
-

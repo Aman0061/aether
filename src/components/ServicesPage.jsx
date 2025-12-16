@@ -1,31 +1,13 @@
-import { useEffect, useRef, useState } from 'react'
-import { Check } from 'lucide-react'
+import { useState } from 'react'
+import { Check, Plus } from 'lucide-react' // Добавил иконку Plus для красоты
 import { Link } from 'react-router-dom'
-import Navbar from './Navbar'
+import { useScrollAnimation } from '../hooks/useScrollAnimation'
 
 const ServicesPage = () => {
-  const servicesRef = useRef(null)
+  // 1. Используем хук вместо ручного Observer'а
+  const servicesRef = useScrollAnimation()
+  
   const [openAccordion, setOpenAccordion] = useState(null)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible')
-          }
-        })
-      },
-      { threshold: 0.1 }
-    )
-
-    const elements = servicesRef.current?.querySelectorAll('.fade-in-up')
-    elements?.forEach((el) => observer.observe(el))
-
-    return () => {
-      elements?.forEach((el) => observer.unobserve(el))
-    }
-  }, [])
 
   const toggleAccordion = (index) => {
     setOpenAccordion(openAccordion === index ? null : index)
@@ -90,118 +72,115 @@ const ServicesPage = () => {
   ]
 
   return (
-    <div className="bg-white text-neutral-800 font-sans antialiased selection:bg-neutral-200 selection:text-black min-h-screen">
-      <Navbar />
-      <main
-        ref={servicesRef}
-        className="pt-32 pb-24 px-6 md:px-12 max-w-[1400px] mx-auto min-h-screen flex flex-col"
-      >
-        {/* Header */}
-        <header className="mb-24 md:mb-32 text-center fade-in-up">
-          <h1 className="text-5xl md:text-6xl font-serif font-light text-neutral-900 mb-6 italic">
-            Услуги
-          </h1>
-          <p className="text-sm font-light text-neutral-500 max-w-lg mx-auto leading-relaxed">
-            Мы предлагаем комплексный подход к созданию интерьера: от первых эскизов до
-            декорирования готового пространства.
-          </p>
-        </header>
+    <section
+      ref={servicesRef}
+      className="pt-32 pb-24 px-6 md:px-12 max-w-[1400px] mx-auto min-h-screen flex flex-col"
+    >
+      {/* Header */}
+      <header className="mb-24 md:mb-32 text-center fade-in-up">
+        <h1 className="text-5xl md:text-6xl font-serif font-light text-neutral-900 mb-6 italic">
+          Услуги
+        </h1>
+        <p className="text-sm font-light text-neutral-500 max-w-lg mx-auto leading-relaxed">
+          Мы предлагаем комплексный подход к созданию интерьера: от первых эскизов до
+          декорирования готового пространства.
+        </p>
+      </header>
 
-        {/* Services Accordion List */}
-        <div className="border-t border-neutral-200 fade-in-up delay-100">
-          {services.map((service, index) => (
-            <div
-              key={index}
-              className={`group border-b border-neutral-200 cursor-pointer service-item ${
-                openAccordion === index ? '[&>div:first-child]:bg-neutral-50/50' : ''
-              }`}
-              onClick={() => toggleAccordion(index)}
-              data-state={openAccordion === index ? 'open' : 'closed'}
-            >
-              {/* Header */}
-              <div className="flex flex-col md:flex-row md:items-center justify-between py-10 md:py-12 pr-4 transition-colors duration-300 group-hover:bg-neutral-50/50">
-                <div className="flex items-center gap-6">
-                  <span
-                    className={`text-2xl font-light text-neutral-300 accordion-icon block transition-transform ${
-                      openAccordion === index ? 'rotate-45' : ''
-                    }`}
-                  >
-                    +
-                  </span>
-                  <h2 className="text-3xl md:text-4xl font-serif font-light text-neutral-900 group-hover:italic transition-all">
-                    {service.title}
-                  </h2>
-                </div>
-                <div className="mt-4 md:mt-0 pl-10 md:pl-0">
-                  <span className="text-sm tracking-widest uppercase text-neutral-500">
-                    {service.price}
-                  </span>
-                </div>
+      {/* Services Accordion List */}
+      <div className="border-t border-neutral-200 fade-in-up delay-100">
+        {services.map((service, index) => (
+          <div
+            key={index}
+            className={`group border-b border-neutral-200 cursor-pointer service-item transition-colors duration-300 ${
+              openAccordion === index ? 'bg-neutral-50/50' : 'hover:bg-neutral-50/30'
+            }`}
+            onClick={() => toggleAccordion(index)}
+          >
+            {/* Header Аккордеона */}
+            <div className="flex flex-col md:flex-row md:items-center justify-between py-10 md:py-12 pr-4">
+              <div className="flex items-center gap-6">
+                {/* Иконка плюса с анимацией поворота */}
+                <span
+                  className={`text-neutral-300 transform transition-transform duration-300 ${
+                    openAccordion === index ? 'rotate-45 text-black' : ''
+                  }`}
+                >
+                   <Plus className="w-6 h-6 font-light" />
+                </span>
+                
+                <h2 className={`text-3xl md:text-4xl font-serif font-light text-neutral-900 transition-all ${
+                    openAccordion === index ? 'italic' : 'group-hover:italic'
+                }`}>
+                  {service.title}
+                </h2>
               </div>
-
-              {/* Content */}
-              <div
-                className={`accordion-content ${
-                  openAccordion === index ? 'open' : ''
-                }`}
-              >
-                <div className="accordion-inner grid grid-cols-1 md:grid-cols-12 gap-12 pl-0 md:pl-12 pt-4">
-                  <div className="md:col-span-7">
-                    <p className="text-neutral-500 font-light mb-8 max-w-xl leading-relaxed">
-                      {service.description}
-                    </p>
-                    <ul className="space-y-4">
-                      {service.features.map((feature, idx) => (
-                        <li key={idx} className="flex items-start gap-4">
-                          <Check className="w-4 h-4 text-neutral-300 mt-1 shrink-0" />
-                          <span className="text-sm font-light text-neutral-700">{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="md:col-span-5 hidden md:block">
-                    <div
-                      className={`aspect-[4/3] bg-neutral-100 overflow-hidden hover-reveal-img relative ${
-                        openAccordion === index ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
-                      }`}
-                    >
-                      <img
-                        src={service.image}
-                        alt={service.title}
-                        className="w-full h-full object-cover opacity-80"
-                      />
-                      <div className="absolute inset-0 border border-black/5 m-4"></div>
-                    </div>
-                  </div>
-                </div>
+              <div className="mt-4 md:mt-0 pl-12 md:pl-0">
+                <span className="text-xs tracking-widest uppercase text-neutral-500">
+                  {service.price}
+                </span>
               </div>
             </div>
-          ))}
-        </div>
 
-        {/* Get a Quote / CTA */}
-        <section className="mt-auto pt-32 text-center fade-in-up">
-          <h3 className="text-2xl font-serif italic text-neutral-900 mb-8">
-            Готовы обсудить ваш проект?
-          </h3>
-          <Link
-            to="/contact"
-            className="inline-block text-xs uppercase tracking-[0.2em] border border-neutral-300 px-12 py-5 hover:bg-black hover:text-white transition-all duration-500"
-          >
-            Заполнить бриф
-          </Link>
-        </section>
-      </main>
+            {/* Content Аккордеона */}
+            <div
+              className={`accordion-content ${
+                openAccordion === index ? 'open' : ''
+              }`}
+            >
+              <div className="accordion-inner grid grid-cols-1 md:grid-cols-12 gap-12 pl-0 md:pl-12 pt-4 pb-12">
+                
+                {/* Описание и список */}
+                <div className="md:col-span-7">
+                  <p className="text-neutral-500 font-light mb-8 max-w-xl leading-relaxed">
+                    {service.description}
+                  </p>
+                  <ul className="space-y-4">
+                    {service.features.map((feature, idx) => (
+                      <li key={idx} className="flex items-start gap-4">
+                        <Check className="w-4 h-4 text-neutral-800 mt-1 shrink-0" />
+                        <span className="text-sm font-light text-neutral-700">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
 
-      {/* Simple Footer */}
-      <footer className="bg-white border-t border-neutral-100 py-12 px-6 md:px-12 text-center">
-        <p className="text-[10px] uppercase tracking-widest text-neutral-400">
-          &copy; 2024 Aether Studio. Moscow.
-        </p>
-      </footer>
-    </div>
+                {/* Картинка (появляется только на десктопе при открытии) */}
+                <div className="md:col-span-5 hidden md:block">
+                  <div
+                    className={`aspect-[4/3] bg-neutral-100 overflow-hidden relative transition-all duration-700 ${
+                      openAccordion === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                    }`}
+                  >
+                    <img
+                      src={service.image}
+                      alt={service.title}
+                      className="w-full h-full object-cover opacity-90"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* CTA Section */}
+      <section className="mt-auto pt-32 text-center fade-in-up delay-200">
+        <h3 className="text-2xl font-serif italic text-neutral-900 mb-8">
+          Готовы обсудить ваш проект?
+        </h3>
+        <Link
+          to="/contact"
+          className="inline-block text-xs uppercase tracking-[0.2em] border border-neutral-300 px-12 py-5 hover:bg-black hover:text-white transition-all duration-500"
+        >
+          Заполнить бриф
+        </Link>
+      </section>
+    </section>
   )
 }
 
 export default ServicesPage
-
