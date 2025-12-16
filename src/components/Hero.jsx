@@ -9,7 +9,7 @@ const Hero = () => {
       {/* Background Image */}
       <div className="absolute inset-0">
         <img
-          src="/images/mainbackground.avif"
+          src="/images/mainbackground.jpg"
           alt="Luxury Living Room Interior"
           className="w-full h-full object-cover object-center filter brightness-[0.85]"
         />
