@@ -44,9 +44,9 @@ export const projectsData = [
       aspect: 'aspect-[3/4]',
       delay: 'delay-100',
       images: [
-        '/images/modernHouse/8.png',
-        '/images/modernHouse/6.png',
-        '/images/modernHouse/9.png',
+        '/images/modernHouse/8.jpg',
+        '/images/modernHouse/6.jpg',
+        '/images/modernHouse/9.jpg',
       ]
     },
     {
