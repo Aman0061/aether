@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
 import ProjectDetail from './components/ProjectDetail'
+import { Toaster } from 'react-hot-toast'
 
 // Глобальные компоненты
 import Navbar from './components/Navbar'
@@ -27,6 +28,26 @@ function App() {
   return (
     <Router>
       <ScrollToTop />
+      <Toaster 
+        position="top-center" 
+        toastOptions={{
+          // Настроим стиль под дизайн сайта (черно-белый минимализм)
+          style: {
+            background: '#171717',
+            color: '#fff',
+            fontFamily: 'Manrope, sans-serif',
+            fontSize: '14px',
+            padding: '16px 24px',
+            borderRadius: '0px', // Острые углы для строгости
+          },
+          success: {
+            iconTheme: {
+              primary: '#fff',
+              secondary: '#171717',
+            },
+          },
+        }}
+      />
       
       {/* Обертка для глобальных стилей и Sticky Footer */}
       <div className="min-h-screen flex flex-col bg-[#F9F8F6] text-neutral-800 font-sans antialiased selection:bg-neutral-200 selection:text-black">

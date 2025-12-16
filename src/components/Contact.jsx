@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
+import toast from 'react-hot-toast' // <--- Импорт тостера
 
 const Contact = () => {
   const contactRef = useScrollAnimation()
   
-  // Состояния для формы и статуса отправки
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
@@ -18,7 +18,7 @@ const Contact = () => {
   // НАСТРОЙКИ TELEGRAM
   // -------------------------------------------------------------------------
   const TG_BOT_TOKEN = '8227356630:AAEF6lzCccHU_frM04GpS5AXkP-0iU2lCBU'
-  const TG_CHAT_ID = '5221925241' // Твой ID уже здесь
+  const TG_CHAT_ID = '5221925241'
   // -------------------------------------------------------------------------
 
   const handleChange = (e) => {
@@ -30,9 +30,8 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setIsSubmitting(true) // Блокируем кнопку
+    setIsSubmitting(true)
 
-    // Формируем красивое сообщение (HTML разметка для Телеграм)
     const message = `
 <b>🔔 Новая заявка с сайта!</b>
 
@@ -45,40 +44,41 @@ const Contact = () => {
 ${formData.details || 'Без комментариев'}
     `
 
-    try {
-      // Отправляем запрос в Telegram
+    // Функция отправки, которую мы передадим в тостер
+    const sendMessagePromise = async () => {
       const response = await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           chat_id: TG_CHAT_ID,
           text: message,
-          parse_mode: 'HTML', // Чтобы работала жирность шрифта
+          parse_mode: 'HTML',
         }),
       })
 
-      if (response.ok) {
-        alert('Заявка успешно отправлена! Мы скоро свяжемся с вами.')
-        // Очищаем форму
-        setFormData({
-          name: '',
-          phone: '',
-          email: '',
-          type: '',
-          details: '',
-        })
-      } else {
-        alert('Ошибка при отправке. Попробуйте написать нам в WhatsApp.')
-        console.error('Telegram Error:', await response.text())
-      }
-    } catch (error) {
-      console.error('Network Error:', error)
-      alert('Ошибка сети. Проверьте интернет.')
-    } finally {
-      setIsSubmitting(false) // Разблокируем кнопку
+      if (!response.ok) throw new Error('Telegram API Error')
+      return response
     }
+
+    // 🔥 МАГИЯ: toast.promise делает всё сам
+    // 1. Показывает "Отправка..."
+    // 2. Ждет завершения fetch
+    // 3. Показывает "Успех" или "Ошибка"
+    toast.promise(sendMessagePromise(), {
+      loading: 'Отправляем заявку...',
+      success: 'Спасибо! Мы скоро свяжемся с вами.',
+      error: 'Ошибка соединения. Попробуйте позже.',
+    })
+    .then(() => {
+      // Очищаем форму только при успехе
+      setFormData({ name: '', phone: '', email: '', type: '', details: '' })
+    })
+    .catch((err) => {
+      console.error(err)
+    })
+    .finally(() => {
+      setIsSubmitting(false)
+    })
   }
 
   return (
@@ -218,7 +218,8 @@ ${formData.details || 'Без комментариев'}
                   isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-neutral-800'
                 }`}
               >
-                {isSubmitting ? 'Отправка...' : 'Отправить заявку'}
+                {/* Текст кнопки больше не меняем, за статус отвечает тостер */}
+                Отправить заявку
               </button>
             </div>
           </form>
