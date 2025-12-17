@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
-import toast from 'react-hot-toast' // <--- Импорт тостера
+import toast from 'react-hot-toast'
 
 const Contact = () => {
   const contactRef = useScrollAnimation()
@@ -44,7 +44,6 @@ const Contact = () => {
 ${formData.details || 'Без комментариев'}
     `
 
-    // Функция отправки, которую мы передадим в тостер
     const sendMessagePromise = async () => {
       const response = await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
         method: 'POST',
@@ -60,17 +59,12 @@ ${formData.details || 'Без комментариев'}
       return response
     }
 
-    // 🔥 МАГИЯ: toast.promise делает всё сам
-    // 1. Показывает "Отправка..."
-    // 2. Ждет завершения fetch
-    // 3. Показывает "Успех" или "Ошибка"
     toast.promise(sendMessagePromise(), {
       loading: 'Отправляем заявку...',
       success: 'Спасибо! Мы скоро свяжемся с вами.',
       error: 'Ошибка соединения. Попробуйте позже.',
     })
     .then(() => {
-      // Очищаем форму только при успехе
       setFormData({ name: '', phone: '', email: '', type: '', details: '' })
     })
     .catch((err) => {
@@ -84,39 +78,44 @@ ${formData.details || 'Без комментариев'}
   return (
     <section
       ref={contactRef}
-      className="min-h-screen pt-32 pb-12 px-6 md:px-12 flex flex-col md:justify-center max-w-[1600px] mx-auto"
+      className="min-h-screen pt-32 pb-12 px-6 md:px-12 flex flex-col md:justify-center max-w-[1600px] mx-auto bg-white"
     >
       <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-24 h-full">
         
         {/* Left Column: Info */}
         <div className="md:col-span-5 flex flex-col justify-between h-full fade-in-up">
           <div>
-            <h1 className="text-5xl md:text-6xl font-serif font-light text-neutral-900 mb-16 italic">
+            {/* Заголовок: text-black */}
+            <h1 className="text-5xl md:text-6xl font-serif font-light text-black mb-16 italic">
               Обсудить проект
             </h1>
 
             <div className="space-y-6">
               <a
                 href="tel:+996551968818"
-                className="block text-3xl md:text-4xl lg:text-5xl font-light text-neutral-900 hover:opacity-60 transition-opacity font-sans tracking-tight"
+                // Телефон: text-black
+                className="block text-3xl md:text-4xl lg:text-5xl font-light text-black hover:opacity-60 transition-opacity font-sans tracking-tight"
               >
                 +(996) 551-968-818
               </a>
               <a
-                href="mailto:hello@aether.com"
-                className="block text-3xl md:text-4xl lg:text-5xl font-light text-neutral-900 hover:opacity-60 transition-opacity font-sans tracking-tight break-words"
+                href="mailto:hello@vimana.com" // Поправил на vimana, если нужно
+                // Email: text-black
+                className="block text-3xl md:text-4xl lg:text-5xl font-light text-black hover:opacity-60 transition-opacity font-sans tracking-tight break-words"
               >
-                hello@aether.com
+                hello@vimana.com
               </a>
             </div>
           </div>
 
-          <div className="mt-24 md:mt-0 grid grid-cols-2 gap-8 border-t md:border-t-0 border-neutral-100 pt-8 md:pt-0">
+          <div className="mt-24 md:mt-0 grid grid-cols-2 gap-8 border-t md:border-t-0 border-neutral-200 pt-8 md:pt-0">
             <div>
-              <span className="text-[10px] tracking-[0.2em] uppercase text-neutral-400 block mb-4">
+              {/* Метка: text-black + font-bold (чтобы мелкий текст читался) */}
+              <span className="text-[10px] tracking-[0.2em] uppercase text-black font-bold block mb-4">
                 Адрес
               </span>
-              <p className="text-sm font-light leading-relaxed text-neutral-600">
+              {/* Текст адреса: text-black */}
+              <p className="text-sm font-light leading-relaxed text-black">
                 Бишкек, Кыргызстан
                 <br />
                 Пресненская наб., 12
@@ -125,17 +124,19 @@ ${formData.details || 'Без комментариев'}
               </p>
             </div>
             <div>
-              <span className="text-[10px] tracking-[0.2em] uppercase text-neutral-400 block mb-4">
+              {/* Метка: text-black + font-bold */}
+              <span className="text-[10px] tracking-[0.2em] uppercase text-black font-bold block mb-4">
                 Social
               </span>
-              <ul className="space-y-2 text-sm font-light text-neutral-600">
+              {/* Ссылки: text-black */}
+              <ul className="space-y-2 text-sm font-light text-black">
                 <li>
-                  <a href="https://www.instagram.com/vimana__architects/" target="_blank" rel="noreferrer" className="hover:text-black transition-colors">
+                  <a href="https://www.instagram.com/vimana__architects/" target="_blank" rel="noreferrer" className="hover:opacity-60 transition-opacity">
                     Instagram
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-black transition-colors">
+                  <a href="#" className="hover:opacity-60 transition-opacity">
                     WhatsApp
                   </a>
                 </li>
@@ -154,7 +155,8 @@ ${formData.details || 'Без комментариев'}
                   name="name"
                   placeholder="Имя"
                   required
-                  className="minimal-input"
+                  // INPUT: добавил text-black placeholder:text-neutral-500
+                  className="minimal-input text-black placeholder:text-neutral-500 border-neutral-300 focus:border-black"
                   value={formData.name}
                   onChange={handleChange}
                   disabled={isSubmitting}
@@ -166,7 +168,7 @@ ${formData.details || 'Без комментариев'}
                   name="phone"
                   placeholder="Телефон"
                   required
-                  className="minimal-input"
+                  className="minimal-input text-black placeholder:text-neutral-500 border-neutral-300 focus:border-black"
                   value={formData.phone}
                   onChange={handleChange}
                   disabled={isSubmitting}
@@ -179,7 +181,7 @@ ${formData.details || 'Без комментариев'}
                 type="email"
                 name="email"
                 placeholder="Email"
-                className="minimal-input"
+                className="minimal-input text-black placeholder:text-neutral-500 border-neutral-300 focus:border-black"
                 value={formData.email}
                 onChange={handleChange}
                 disabled={isSubmitting}
@@ -191,7 +193,7 @@ ${formData.details || 'Без комментариев'}
                 type="text"
                 name="type"
                 placeholder="Тип объекта (Квартира, Дом, Офис)"
-                className="minimal-input"
+                className="minimal-input text-black placeholder:text-neutral-500 border-neutral-300 focus:border-black"
                 value={formData.type}
                 onChange={handleChange}
                 disabled={isSubmitting}
@@ -203,7 +205,7 @@ ${formData.details || 'Без комментариев'}
                 rows="4"
                 name="details"
                 placeholder="Детали проекта"
-                className="minimal-input resize-none"
+                className="minimal-input resize-none text-black placeholder:text-neutral-500 border-neutral-300 focus:border-black"
                 value={formData.details}
                 onChange={handleChange}
                 disabled={isSubmitting}
@@ -218,7 +220,6 @@ ${formData.details || 'Без комментариев'}
                   isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-neutral-800'
                 }`}
               >
-                {/* Текст кнопки больше не меняем, за статус отвечает тостер */}
                 Отправить заявку
               </button>
             </div>

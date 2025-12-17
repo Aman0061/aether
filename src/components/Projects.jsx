@@ -11,16 +11,22 @@ const Projects = () => {
       ref={projectsRef}
       className="py-12 px-4 md:px-12 bg-white"
     >
+      {/* HEADER SECTION */}
       <div className="flex justify-between items-end mb-16 md:mb-24 px-2">
         <div>
-          <span className="block text-xs tracking-[0.2em] text-neutral-400 mb-2 uppercase">
+          {/* Subtitle: Сделали жирным и чуть крупнее */}
+          <span className="block text-sm font-bold tracking-[0.2em] text-neutral-500 mb-3 uppercase">
             Избранные работы
           </span>
-          <h3 className="text-3xl font-serif italic text-neutral-900">Кураторские пространства</h3>
+          {/* Title: Увеличили до 4xl и сделали плотнее (font-medium) */}
+          <h3 className="text-4xl md:text-5xl font-serif font-medium italic text-black">
+            Кураторские пространства
+          </h3>
         </div>
+        {/* Link: Жирный шрифт */}
         <Link
           to="/projects"
-          className="hidden md:block text-xs uppercase tracking-[0.2em] hover:opacity-50 transition-opacity"
+          className="hidden md:block text-sm font-bold uppercase tracking-[0.2em] hover:opacity-50 transition-opacity border-b-2 border-transparent hover:border-black pb-1"
         >
           Все проекты
         </Link>
@@ -37,17 +43,21 @@ const Projects = () => {
             />
           </div>
           <div className="md:col-span-3 flex flex-col justify-end h-full pb-4">
-            <span className="text-[10px] tracking-[0.2em] text-neutral-400 mb-2 uppercase">
+            {/* Tag: text-[10px] -> text-xs + font-bold + text-black */}
+            <span className="text-xs font-bold tracking-[0.2em] text-black mb-3 uppercase">
               Москва, Россия
             </span>
-            <h4 className="text-3xl font-serif mb-4 group-hover:italic transition-all">
+            {/* Title: text-3xl -> text-4xl + font-medium */}
+            <h4 className="text-3xl md:text-4xl font-serif font-medium mb-4 transition-all text-black">
               Каменный дом
             </h4>
-            <p className="text-sm text-neutral-500 font-light leading-relaxed mb-6">
+            {/* Desc: text-sm -> text-base + убрали font-light + цвет темнее */}
+            <p className="text-base text-neutral-800 leading-relaxed mb-6">
               Монолитная резиденция с использованием сырого бетона и восстановленной древесины.
             </p>
-            <span className="inline-flex items-center text-xs tracking-widest uppercase group-hover:translate-x-2 transition-transform duration-300">
-              Смотреть проект <ArrowRight className="w-3 h-3 ml-2" />
+            {/* Link: text-xs -> text-sm + font-bold */}
+            <span className="inline-flex items-center text-sm font-bold tracking-widest uppercase group-hover:translate-x-2 transition-transform duration-300">
+              Смотреть проект <ArrowRight className="w-4 h-4 ml-2" />
             </span>
           </div>
         </div>
@@ -57,18 +67,22 @@ const Projects = () => {
       <Link to="/projects" className="block group cursor-pointer mb-24 md:mb-40 fade-in-up">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
           <div className="md:col-span-3 md:col-start-2 flex flex-col justify-start h-full pt-12 md:text-right order-2 md:order-1">
-            <span className="text-[10px] tracking-[0.2em] text-neutral-400 mb-2 uppercase">
+            
+            <span className="text-xs font-bold tracking-[0.2em] text-black mb-3 uppercase">
               Санкт-Петербург
             </span>
-            <h4 className="text-3xl font-serif mb-4 group-hover:italic transition-all">
+            
+            <h4 className="text-3xl md:text-4xl font-serif font-medium mb-4  transition-all text-black">
               Авеню Монтень
             </h4>
-            <p className="text-sm text-neutral-500 font-light leading-relaxed mb-6">
+            
+            <p className="text-base text-neutral-800 leading-relaxed mb-6">
               Реставрация квартиры в стиле Османа XIX века.
             </p>
+            
             <div className="flex md:justify-end">
-              <span className="inline-flex items-center text-xs tracking-widest uppercase group-hover:translate-x-2 transition-transform duration-300">
-                Смотреть проект <ArrowRight className="w-3 h-3 ml-2" />
+              <span className="inline-flex items-center text-sm font-bold tracking-widest uppercase group-hover:translate-x-2 transition-transform duration-300">
+                Смотреть проект <ArrowRight className="w-4 h-4 ml-2" />
               </span>
             </div>
           </div>
@@ -93,26 +107,31 @@ const Projects = () => {
             />
           </div>
           <div className="md:col-span-5 md:col-start-8">
-            <span className="text-[10px] tracking-[0.2em] text-neutral-400 mb-2 uppercase">
+            
+            <span className="text-xs font-bold tracking-[0.2em] text-black mb-3 uppercase">
               Сочи, Россия
             </span>
-            <h4 className="text-3xl font-serif mb-4 group-hover:italic transition-all">
+            
+            <h4 className="text-3xl md:text-4xl font-serif font-medium mb-4 transition-all text-black">
               Горное убежище
             </h4>
-            <p className="text-sm text-neutral-500 font-light leading-relaxed mb-6">
+            
+            <p className="text-base text-neutral-800 leading-relaxed mb-6">
               Минималистичная альпийская архитектура с акцентом на панорамные виды.
             </p>
-            <span className="inline-flex items-center text-xs tracking-widest uppercase group-hover:translate-x-2 transition-transform duration-300">
-              Смотреть проект <ArrowRight className="w-3 h-3 ml-2" />
+            
+            <span className="inline-flex items-center text-sm font-bold tracking-widest uppercase group-hover:translate-x-2 transition-transform duration-300">
+              Смотреть проект <ArrowRight className="w-4 h-4 ml-2" />
             </span>
           </div>
         </div>
       </Link>
 
+      {/* Mobile Button */}
       <div className="text-center mt-24 md:hidden">
         <Link
           to="/projects"
-          className="text-xs uppercase tracking-[0.2em] border border-neutral-200 px-8 py-4 block w-full hover:bg-neutral-900 hover:text-white transition-colors"
+          className="text-sm font-bold uppercase tracking-[0.2em] border-2 border-neutral-200 px-8 py-4 block w-full hover:bg-black hover:text-white hover:border-black transition-colors"
         >
           Все проекты
         </Link>

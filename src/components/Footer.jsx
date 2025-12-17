@@ -4,27 +4,27 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-24">
           <div>
-            <h2 className="text-4xl md:text-6xl font-serif mb-8 text-neutral-900">
+            <h2 className="text-4xl md:text-6xl font-serif mb-12 text-neutral-900">
               Давайте создадим что-то
               <br />
               <span className="italic">вечное.</span>
             </h2>
             <a
-              href="mailto:hello@aether.com"
+              href="mailto:architectsvimana@gmail.com"
               className="text-xl md:text-2xl border-b border-neutral-300 pb-2 hover:border-black transition-colors"
             >
-              hello@aether.com
+              architectsvimana@gmail.com                                                                                               
             </a>
           </div>
-          <div className="grid grid-cols-2 gap-8 text-sm font-light">
+          <div className="grid grid-cols-2 gap-8 text-lg font-light">
             <div>
-              <h5 className="uppercase tracking-[0.2em] mb-6 text-neutral-400 text-xs">Студия</h5>
+              <h5 className="uppercase tracking-[0.2em] mb-6 text-neutral-900 text-xl">Студия</h5>
               <p className="mb-1">Бишкек</p>
               <p className="mb-1">Кыргызстан</p>
               <p>+(996) 551-968-818</p>
             </div>
             <div>
-              <h5 className="uppercase tracking-[0.2em] mb-6 text-neutral-400 text-xs">Социальные сети</h5>
+              <h5 className="uppercase tracking-[0.2em] mb-6 text-neutral-900 text-xl ">Социальные сети</h5>
               <ul className="space-y-2">
                 <li>
                   <a href="https://www.instagram.com/vimana__architects/" className="hover:text-neutral-500 transition-colors">
