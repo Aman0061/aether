@@ -142,11 +142,12 @@ const Navbar = () => {
 
       {/* Mobile Menu Overlay */}
       <div
-        className={`fixed inset-0 z-40 bg-white transform transition-transform duration-500 ease-in-out flex flex-col justify-center items-center ${
+        className={`fixed inset-0 z-40 bg-white transform transition-transform duration-500 ease-in-out flex flex-col ${
           isMenuOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}
+        } 
+        justify-start pt-32 pb-10 overflow-y-auto`} // <--- ИЗМЕНЕНИЯ ЗДЕСЬ
       >
-        <div className="flex flex-col space-y-8 text-center items-center">
+        <div className="flex flex-col space-y-6 text-center items-center min-h-min"> {/* space-y-8 можно уменьшить до 6, чтобы влезло больше */}
           {NAV_ITEMS.map((item) => (
              item.path.startsWith('http') ? (
                 <a
@@ -155,7 +156,7 @@ const Navbar = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setIsMenuOpen(false)}
-                  className="text-3xl font-bold uppercase tracking-widest text-gray-400 hover:text-black transition-colors"
+                  className="text-2xl md:text-3xl font-bold uppercase tracking-widest text-neutral-400 hover:text-black transition-colors"
                 >
                   {item.label}
                 </a>
@@ -164,10 +165,10 @@ const Navbar = () => {
                   key={item.label}
                   to={item.path}
                   onClick={() => setIsMenuOpen(false)}
-                  className={`text-3xl font-bold uppercase tracking-widest transition-colors ${
+                  className={`text-2xl md:text-3xl font-bold uppercase tracking-widest transition-colors ${
                     location.pathname === item.path
                       ? 'text-black'
-                      : 'text-gray-400 hover:text-black'
+                      : 'text-neutral-400 hover:text-black'
                   }`}
                 >
                   {item.label}
@@ -177,10 +178,10 @@ const Navbar = () => {
           
           {/* ЯЗЫКОВОЙ ПЕРЕКЛЮЧАТЕЛЬ (MOBILE) */}
           <div className="pt-8">
-             <LangSwitcher className="scale-125" /> {/* Чуть увеличили для удобства нажатия пальцем */}
+             <LangSwitcher className="scale-125" />
           </div>
 
-          <a href="tel:+996551968818" className="mt-4 text-xl font-light text-black">
+          <a href="tel:+996551968818" className="mt-4 text-lg font-light text-black pb-8"> {/* Добавил pb-8 для отступа снизу */}
              +(996) 551 968 818
           </a>
         </div>
