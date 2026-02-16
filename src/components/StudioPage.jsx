@@ -1,7 +1,11 @@
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
+import { useLanguage } from '../context/LanguageContext'
+import { studioTranslations } from '../translations/studio'
 
 const StudioPage = () => {
   const studioRef = useScrollAnimation()
+  const { lang } = useLanguage()
+  const t = studioTranslations[lang]
 
   return (
     <section ref={studioRef} className="pt-32 md:pt-48 pb-24 min-h-screen bg-white">
@@ -11,21 +15,17 @@ const StudioPage = () => {
         <div className="text-center md:text-left fade-in-up">
           {/* Label: text-xs + font-bold + text-black */}
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-neutral-500 mb-8">
-            Философия
+            {t.philosophy}
           </p>
           
-          {/* Headline: font-medium + text-black */}
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-medium leading-tight text-balance text-black">
-            Мы верим, что пространство — это не просто контейнер для объектов, а{' '}
-            <span className="italic text-neutral-600">холст для света</span> и тишины.
+            {t.headline}{' '}
+            <span className="italic text-neutral-600">{t.headlineItalic}</span> {t.headlineEnd}
           </h1>
           
           <div className="mt-12 md:max-w-3xl md:ml-auto">
-            {/* Body Text: text-xl (крупно) + normal weight + text-neutral-900 (почти черный) */}
             <p className="text-xl font-normal text-neutral-900 leading-relaxed">
-              Наш подход редуктивен. Мы убираем лишнее, чтобы раскрыть сущностную красоту формы и
-              материала. Каждая линия продумана, каждая текстура выбрана, чтобы вызвать чувство
-              спокойствия и постоянства в хаотичном мире.
+              {t.body}
             </p>
           </div>
         </div>
@@ -46,17 +46,14 @@ const StudioPage = () => {
           <div className="md:col-span-4 md:col-start-8 px-6 md:px-0 fade-in-up delay-100">
             {/* Quote: font-medium + black */}
             <blockquote className="text-2xl md:text-3xl font-serif font-medium italic leading-relaxed mb-8 text-black">
-              "Истинная роскошь — это способность слышать собственные мысли. Мы проектируем
-              пространства, которые дают эту привилегию."
+              {t.quote}
             </blockquote>
             <div className="space-y-2">
-              {/* Name: text-base + font-bold */}
               <h3 className="text-base uppercase tracking-[0.2em] font-bold text-black">
-                Елена Волкова
+                {t.founderName}
               </h3>
-              {/* Role: text-sm + font-medium + darker gray */}
               <p className="text-sm text-neutral-600 tracking-wide font-medium">
-                Основатель и главный архитектор
+                {t.founderRole}
               </p>
             </div>
           </div>
@@ -74,7 +71,7 @@ const StudioPage = () => {
               12
             </span>
             <span className="text-xs font-bold uppercase tracking-[0.2em] text-black">
-              Лет дизайна
+              {t.yearsDesign}
             </span>
           </div>
 
@@ -84,7 +81,7 @@ const StudioPage = () => {
               85
             </span>
             <span className="text-xs font-bold uppercase tracking-[0.2em] text-black">
-              Завершенных проектов
+              {t.completedProjects}
             </span>
           </div>
 
@@ -94,7 +91,7 @@ const StudioPage = () => {
               14
             </span>
             <span className="text-xs font-bold uppercase tracking-[0.2em] text-black">
-              Наград
+              {t.awards}
             </span>
           </div>
 
@@ -104,7 +101,7 @@ const StudioPage = () => {
               3
             </span>
             <span className="text-xs font-bold uppercase tracking-[0.2em] text-black">
-              Континента
+              {t.continents}
             </span>
           </div>
 
@@ -116,7 +113,7 @@ const StudioPage = () => {
         <div className="mb-16 md:mb-24 fade-in-up">
           {/* Header: bold + black */}
           <h2 className="text-4xl font-serif font-medium italic text-black mb-6">
-            Процесс работы с материалами
+            {t.materialsTitle}
           </h2>
           <div className="w-16 h-[2px] bg-black"></div>
         </div>
@@ -133,12 +130,9 @@ const StudioPage = () => {
                 />
               </div>
               {/* Title: font-bold */}
-              <h3 className="text-xl font-bold uppercase tracking-widest mb-4 text-black">Тактильность</h3>
-              {/* Text: text-base + darker color */}
+              <h3 className="text-xl font-bold uppercase tracking-widest mb-4 text-black">{t.tactility}</h3>
               <p className="text-base text-neutral-800 leading-relaxed">
-                Мы выбираем материалы не по тому, как они выглядят, а по тому, как они ощущаются.
-                Натуральный камень, сырой шелк и необработанная древесина заземляют наши
-                пространства в реальности.
+                {t.tactilityDesc}
               </p>
             </div>
           </div>
@@ -153,10 +147,9 @@ const StudioPage = () => {
                   className="w-full h-full object-cover img-zoom"
                 />
               </div>
-              <h3 className="text-xl font-bold uppercase tracking-widest mb-4 text-black">Светимость</h3>
+              <h3 className="text-xl font-bold uppercase tracking-widest mb-4 text-black">{t.luminosity}</h3>
               <p className="text-base text-neutral-800 leading-relaxed">
-                Свет — наш основной строительный материал. Мы лепим его, чтобы создать глубину,
-                драму и ритм в течение дня.
+                {t.luminosityDesc}
               </p>
             </div>
           </div>
@@ -171,10 +164,9 @@ const StudioPage = () => {
                   className="w-full h-full object-cover img-zoom"
                 />
               </div>
-              <h3 className="text-xl font-bold uppercase tracking-widest mb-4 text-black">Наследие</h3>
+              <h3 className="text-xl font-bold uppercase tracking-widest mb-4 text-black">{t.legacy}</h3>
               <p className="text-base text-neutral-800 leading-relaxed">
-                Мы чтим историю архитектуры, принимая будущее. Каждая деталь — это диалог между
-                старым и новым.
+                {t.legacyDesc}
               </p>
             </div>
           </div>
@@ -193,8 +185,8 @@ const StudioPage = () => {
           </div>
           <div className="absolute bottom-8 left-8 md:bottom-12 md:left-12 text-white z-10">
             {/* Label: font-bold */}
-            <p className="text-xs font-bold uppercase tracking-[0.3em] mb-4 drop-shadow-md">За кулисами</p>
-            <h2 className="text-4xl md:text-6xl font-serif font-medium italic drop-shadow-md">Ателье</h2>
+            <p className="text-xs font-bold uppercase tracking-[0.3em] mb-4 drop-shadow-md">{t.behindScenes}</p>
+            <h2 className="text-4xl md:text-6xl font-serif font-medium italic drop-shadow-md">{t.atelier}</h2>
           </div>
         </div>
       </div>

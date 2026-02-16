@@ -1,7 +1,11 @@
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
+import { useLanguage } from '../context/LanguageContext'
+import { servicesTranslations } from '../translations/services'
 
 const Services = () => {
   const servicesRef = useScrollAnimation()
+  const { lang } = useLanguage()
+  const t = servicesTranslations[lang]
 
   return (
     <section
@@ -23,11 +27,10 @@ const Services = () => {
               01
             </span>
             <h4 className="text-base font-bold uppercase tracking-[0.2em] mb-4 text-white">
-              Интерьерная архитектура
+              {t.interiorArch}
             </h4>
             <p className="text-base leading-relaxed text-neutral-400">
-              Структурные изменения, планировка пространства и архитектурная детализация для
-              оптимизации потока и света.
+              {t.interiorArchDesc}
             </p>
           </div>
 
@@ -37,11 +40,10 @@ const Services = () => {
               02
             </span>
             <h4 className="text-base font-bold uppercase tracking-[0.2em] mb-4 text-white">
-              Дизайн и декор
+              {t.designDeco}
             </h4>
             <p className="text-base leading-relaxed text-neutral-400">
-              Подбор эксклюзивной мебели, кураторство искусства и подбор текстиля для целостной
-              эстетики.
+              {t.designDecoDesc}
             </p>
           </div>
 
@@ -51,10 +53,10 @@ const Services = () => {
               03
             </span>
             <h4 className="text-base font-bold uppercase tracking-[0.2em] mb-4 text-white">
-              Управление проектом
+              {t.projectMgmt}
             </h4>
             <p className="text-base leading-relaxed text-neutral-400">
-              Полный контроль от концепции до завершения, обеспечивая бескомпромиссное качество.
+              {t.projectMgmtDesc}
             </p>
           </div>
 

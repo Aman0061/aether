@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'serif': ['Cormorant Garamond', 'serif'],
+        'serif': ['Barlow', 'sans-serif'],
         'sans': ['Manrope', 'sans-serif'],
       },
       colors: {

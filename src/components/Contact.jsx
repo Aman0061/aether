@@ -1,9 +1,13 @@
 import { useState } from 'react'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
+import { useLanguage } from '../context/LanguageContext'
 import toast from 'react-hot-toast'
+import { contactTranslations } from '../translations/contact'
 
 const Contact = () => {
   const contactRef = useScrollAnimation()
+  const { lang } = useLanguage()
+  const t = contactTranslations[lang]
   
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState({
@@ -14,12 +18,8 @@ const Contact = () => {
     details: '',
   })
 
-  // -------------------------------------------------------------------------
-  // НАСТРОЙКИ TELEGRAM
-  // -------------------------------------------------------------------------
-  const TG_BOT_TOKEN = '8227356630:AAEF6lzCccHU_frM04GpS5AXkP-0iU2lCBU'
-  const TG_CHAT_ID = '5221925241'
-  // -------------------------------------------------------------------------
+  const TG_BOT_TOKEN = import.meta.env.VITE_TG_BOT_TOKEN
+  const TG_CHAT_ID = import.meta.env.VITE_TG_CHAT_ID
 
   const handleChange = (e) => {
     setFormData({
@@ -33,18 +33,19 @@ const Contact = () => {
     setIsSubmitting(true)
 
     const message = `
-<b>🔔 Новая заявка с сайта!</b>
+<b>🔔 ${t.tgTitle}</b>
 
-<b>👤 Имя:</b> ${formData.name}
-<b>📱 Телефон:</b> ${formData.phone}
-<b>📧 Email:</b> ${formData.email || 'Не указан'}
-<b>🏠 Тип объекта:</b> ${formData.type || 'Не указан'}
+<b>👤 ${t.tgName}:</b> ${formData.name}
+<b>📱 ${t.tgPhone}:</b> ${formData.phone}
+<b>📧 ${t.tgEmail}:</b> ${formData.email || t.notSpecified}
+<b>🏠 ${t.tgType}:</b> ${formData.type || t.notSpecified}
 
-<b>📝 Детали:</b>
-${formData.details || 'Без комментариев'}
+<b>📝 ${t.tgDetails}:</b>
+${formData.details || t.noComments}
     `
 
     const sendMessagePromise = async () => {
+      if (!TG_BOT_TOKEN || !TG_CHAT_ID) throw new Error('Telegram not configured')
       const response = await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -60,9 +61,9 @@ ${formData.details || 'Без комментариев'}
     }
 
     toast.promise(sendMessagePromise(), {
-      loading: 'Отправляем заявку...',
-      success: 'Спасибо! Мы скоро свяжемся с вами.',
-      error: 'Ошибка соединения. Попробуйте позже.',
+      loading: t.toastLoading,
+      success: t.toastSuccess,
+      error: t.toastError,
     })
     .then(() => {
       setFormData({ name: '', phone: '', email: '', type: '', details: '' })
@@ -87,7 +88,7 @@ ${formData.details || 'Без комментариев'}
           <div>
             {/* Заголовок: text-black */}
             <h1 className="text-5xl md:text-6xl font-serif font-light text-black mb-16 italic">
-              Обсудить проект
+              {t.title}
             </h1>
 
             <div className="space-y-6">
@@ -99,11 +100,10 @@ ${formData.details || 'Без комментариев'}
                 +(996) 551-968-818
               </a>
               <a
-                href="mailto:hello@vimana.com" // Поправил на vimana, если нужно
-                // Email: text-black
+                href="mailto:architectsvimana@gmail.com"
                 className="block text-3xl md:text-4xl lg:text-5xl font-light text-black hover:opacity-60 transition-opacity font-sans tracking-tight break-words"
               >
-                hello@vimana.com
+                architectsvimana@gmail.com
               </a>
             </div>
           </div>
@@ -112,21 +112,18 @@ ${formData.details || 'Без комментариев'}
             <div>
               {/* Метка: text-black + font-bold (чтобы мелкий текст читался) */}
               <span className="text-[10px] tracking-[0.2em] uppercase text-black font-bold block mb-4">
-                Адрес
+                {t.address}
               </span>
-              {/* Текст адреса: text-black */}
               <p className="text-sm font-light leading-relaxed text-black">
-                Бишкек, Кыргызстан
-                <br />
-                Пресненская наб., 12
-                <br />
-                Башня Федерация
+                {t.addressLines.map((line, i) => (
+                  <span key={i}>{line}{i < t.addressLines.length - 1 && <br />}</span>
+                ))}
               </p>
             </div>
             <div>
               {/* Метка: text-black + font-bold */}
               <span className="text-[10px] tracking-[0.2em] uppercase text-black font-bold block mb-4">
-                Social
+                {t.social}
               </span>
               {/* Ссылки: text-black */}
               <ul className="space-y-2 text-sm font-light text-black">
@@ -136,7 +133,7 @@ ${formData.details || 'Без комментариев'}
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:opacity-60 transition-opacity">
+                  <a href="https://wa.me/996551968818" target="_blank" rel="noreferrer" className="hover:opacity-60 transition-opacity">
                     WhatsApp
                   </a>
                 </li>
@@ -153,7 +150,7 @@ ${formData.details || 'Без комментариев'}
                 <input
                   type="text"
                   name="name"
-                  placeholder="Имя"
+                  placeholder={t.placeholderName}
                   required
                   // INPUT: добавил text-black placeholder:text-neutral-500
                   className="minimal-input text-black placeholder:text-neutral-500 border-neutral-300 focus:border-black"
@@ -166,7 +163,7 @@ ${formData.details || 'Без комментариев'}
                 <input
                   type="tel"
                   name="phone"
-                  placeholder="Телефон"
+                  placeholder={t.placeholderPhone}
                   required
                   className="minimal-input text-black placeholder:text-neutral-500 border-neutral-300 focus:border-black"
                   value={formData.phone}
@@ -192,7 +189,7 @@ ${formData.details || 'Без комментариев'}
               <input
                 type="text"
                 name="type"
-                placeholder="Тип объекта (Квартира, Дом, Офис)"
+                placeholder={t.placeholderType}
                 className="minimal-input text-black placeholder:text-neutral-500 border-neutral-300 focus:border-black"
                 value={formData.type}
                 onChange={handleChange}
@@ -204,7 +201,7 @@ ${formData.details || 'Без комментариев'}
               <textarea
                 rows="4"
                 name="details"
-                placeholder="Детали проекта"
+                placeholder={t.placeholderDetails}
                 className="minimal-input resize-none text-black placeholder:text-neutral-500 border-neutral-300 focus:border-black"
                 value={formData.details}
                 onChange={handleChange}
@@ -220,7 +217,7 @@ ${formData.details || 'Без комментариев'}
                   isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-neutral-800'
                 }`}
               >
-                Отправить заявку
+                {t.submit}
               </button>
             </div>
           </form>

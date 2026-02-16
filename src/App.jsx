@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
 import ProjectDetail from './components/ProjectDetail'
 import { Toaster } from 'react-hot-toast'
+import { LanguageProvider } from './context/LanguageContext'
 
 // Глобальные компоненты
 import Navbar from './components/Navbar'
@@ -14,6 +15,7 @@ import StudioPage from './components/StudioPage'
 import ServicesPage from './components/ServicesPage'
 import Journal from './components/Journal'
 import Contact from './components/Contact'
+import NotFound from './components/NotFound'
 
 // Хук для скролла вверх при переходе по страницам
 const ScrollToTop = () => {
@@ -26,6 +28,7 @@ const ScrollToTop = () => {
 
 function App() {
   return (
+    <LanguageProvider>
     <Router>
       <ScrollToTop />
       <Toaster 
@@ -67,7 +70,7 @@ function App() {
             {/* <Route path="/journal" element={<Journal />} /> */}
             <Route path="/contact" element={<Contact />} />
             {/* Заглушка для 404 */}
-            <Route path="*" element={<div className="h-[50vh] flex items-center justify-center">Страница не найдена</div>} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
 
@@ -76,6 +79,7 @@ function App() {
         
       </div>
     </Router>
+    </LanguageProvider>
   )
 }
 

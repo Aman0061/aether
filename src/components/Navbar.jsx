@@ -1,22 +1,23 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
+import { useLanguage } from '../context/LanguageContext'
+import { navTranslations } from '../translations/nav'
 
 const NAV_ITEMS = [
-  { path: '/', label: 'Главная' },
-  { path: '/projects', label: 'Проекты' },
-  { path: '/studio', label: 'Студия' },
-  { path: '/services', label: 'Услуги' },
-  { path: '/contact', label: 'Контакты' },
-  { path: 'https://instagram.com', label: 'Instagram' },
+  { path: '/', key: 'home' },
+  { path: '/services', key: 'services' },
+  // { path: '/studio', key: 'studio' }, // скрыто пока
+  { path: '/projects', key: 'projects' },
+  { path: '/contact', key: 'contact' },
+  { path: 'https://www.instagram.com/vimana__architects/', label: 'Instagram' },
 ]
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  
-  // Добавили состояние для языка ('RU' по умолчанию)
-  const [lang, setLang] = useState('RU')
+  const { lang, setLang } = useLanguage()
+  const t = navTranslations[lang]
   
   const location = useLocation()
 
@@ -52,7 +53,8 @@ const Navbar = () => {
     return classes + 'text-neutral-500 hover:text-black'
   }
 
-  // Компонент переключателя (чтобы не дублировать код)
+  const getLabel = (item) => item.key ? t[item.key] : item.label
+
   const LangSwitcher = ({ className = "" }) => (
     <div className={`flex items-center gap-2 ${className}`}>
       <button 
@@ -82,14 +84,16 @@ const Navbar = () => {
         <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-4 z-50">
           <Link
             to="/"
-            className="text-xl md:text-2xl tracking-[0.1em] font-bold text-black transition-colors uppercase"
+            className="text-2xl md:text-3xl tracking-[0.1em] font-bold text-black transition-colors uppercase"
           >
             VIMANA
           </Link>
 
           <a
-            href="tel:+996551968818"
-            className="text-sm md:text-lg font-light text-black hover:text-gray-600 transition-colors whitespace-nowrap"
+            href="https://wa.me/996551968818"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-base md:text-xl font-light text-black hover:text-gray-600 transition-colors whitespace-nowrap"
           >
             +(996) 551 968 818
           </a>
@@ -100,21 +104,21 @@ const Navbar = () => {
           {NAV_ITEMS.map((item) => (
             item.path.startsWith('http') ? (
                <a 
-                 key={item.label}
+                 key={item.label || item.key}
                  href={item.path}
                  target="_blank"
                  rel="noopener noreferrer"
                  className={getLinkClasses(item.path)}
                >
-                 {item.label}
+                 {getLabel(item)}
                </a>
             ) : (
               <Link
-                key={item.label}
+                key={item.key}
                 to={item.path}
                 className={getLinkClasses(item.path)}
               >
-                {item.label}
+                {getLabel(item)}
               </Link>
             )
           ))}
@@ -147,22 +151,22 @@ const Navbar = () => {
         } 
         justify-start pt-32 pb-10 overflow-y-auto`} // <--- ИЗМЕНЕНИЯ ЗДЕСЬ
       >
-        <div className="flex flex-col space-y-6 text-center items-center min-h-min"> {/* space-y-8 можно уменьшить до 6, чтобы влезло больше */}
+        <div className="flex flex-col space-y-6 text-center items-center min-h-min">
           {NAV_ITEMS.map((item) => (
              item.path.startsWith('http') ? (
                 <a
-                  key={item.label}
+                  key={item.label || item.key}
                   href={item.path}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setIsMenuOpen(false)}
                   className="text-2xl md:text-3xl font-bold uppercase tracking-widest text-neutral-400 hover:text-black transition-colors"
                 >
-                  {item.label}
+                  {getLabel(item)}
                 </a>
              ) : (
                 <Link
-                  key={item.label}
+                  key={item.key}
                   to={item.path}
                   onClick={() => setIsMenuOpen(false)}
                   className={`text-2xl md:text-3xl font-bold uppercase tracking-widest transition-colors ${
@@ -171,7 +175,7 @@ const Navbar = () => {
                       : 'text-neutral-400 hover:text-black'
                   }`}
                 >
-                  {item.label}
+                  {getLabel(item)}
                 </Link>
              )
           ))}
@@ -181,7 +185,7 @@ const Navbar = () => {
              <LangSwitcher className="scale-125" />
           </div>
 
-          <a href="tel:+996551968818" className="mt-4 text-lg font-light text-black pb-8"> {/* Добавил pb-8 для отступа снизу */}
+          <a href="https://wa.me/996551968818" target="_blank" rel="noopener noreferrer" className="mt-4 text-xl font-light text-black pb-8">
              +(996) 551 968 818
           </a>
         </div>
