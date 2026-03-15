@@ -19,7 +19,7 @@ const HomeAbout = () => {
             <img
               src="/images/B3.jpg"
               alt="Vimana Studio"
-              className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+              className="w-full h-full object-cover hover:grayscale-0 transition-all duration-700"
             />
             <div className="absolute bottom-4 left-4 text-sm font-bold tracking-widest text-white mix-blend-difference">
               EST. 2024

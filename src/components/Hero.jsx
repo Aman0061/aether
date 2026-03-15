@@ -12,7 +12,7 @@ const Hero = () => {
       {/* Background Image - из папки Фоновые для главной страницы */}
       <div className="absolute inset-0">
         <img
-          src="/images/mainbackground.jpg"
+          src="/images/Contemporary house 340/6.png"
           alt="Luxury Living Room Interior"
           className="w-full h-full object-cover object-center"
         />
@@ -27,7 +27,7 @@ const Hero = () => {
 
         <h1 className="fade-in-up text-5xl md:text-6xl lg:text-7xl font-serif font-medium tracking-tight leading-tight drop-shadow-lg delay-100">
           {t.heroTitle} <br />
-          <span className="italic">{t.heroTitleItalic}</span>
+          <span className="">{t.heroTitleItalic}</span>
         </h1>
 
         <div className="fade-in-up mt-12 delay-200">

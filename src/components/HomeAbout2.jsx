@@ -27,7 +27,7 @@ const HomeAbout2 = () => {
               <img
                 src="/images/C1.jpg"
                 alt="Vimana Design"
-                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                className="w-full h-full object-cover hover:grayscale-0 transition-all duration-700"
               />
             </div>
           </div>

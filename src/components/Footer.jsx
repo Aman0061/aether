@@ -42,11 +42,6 @@ const Footer = () => {
                     Whats App
                   </a>
                 </li>
-                <li>
-                  <a href="#" className="hover:text-neutral-500 transition-colors">
-                    LinkedIn
-                  </a>
-                </li>
               </ul>
             </div>
           </div>
