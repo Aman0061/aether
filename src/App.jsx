@@ -16,7 +16,6 @@ import ServicesPage from './components/ServicesPage'
 import Journal from './components/Journal'
 import Contact from './components/Contact'
 import NotFound from './components/NotFound'
-import Devs from './components/Devs'
 
 // Хук для скролла вверх при переходе по страницам
 const ScrollToTop = () => {
@@ -72,8 +71,6 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             {/* Заглушка для 404 */}
             <Route path="*" element={<NotFound />} />
-
-            <Route path="/Devs" element={<Devs />} />
 
           </Routes>
         </main>
