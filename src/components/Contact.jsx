@@ -87,7 +87,7 @@ ${formData.details || t.noComments}
         <div className="md:col-span-5 flex flex-col justify-between h-full fade-in-up">
           <div>
             {/* Заголовок: text-black */}
-            <h1 className="text-5xl md:text-6xl font-serif font-light text-black mb-16 italic">
+            <h1 className="text-5xl md:text-6xl font-serif font-light text-black mb-16">
               {t.title}
             </h1>
 

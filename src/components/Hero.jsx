@@ -12,7 +12,7 @@ const Hero = () => {
       {/* Background Image - из папки Фоновые для главной страницы */}
       <div className="absolute inset-0">
         <img
-          src="/images/Contemporary house 340/6.png"
+          src="/images/Contemporary house 340/k1.jpg"
           alt="Luxury Living Room Interior"
           className="w-full h-full object-cover object-center"
         />
