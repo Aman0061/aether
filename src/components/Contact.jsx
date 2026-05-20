@@ -45,18 +45,20 @@ ${formData.details || t.noComments}
     `
 
     const sendMessagePromise = async () => {
-      if (!TG_BOT_TOKEN || !TG_CHAT_ID) throw new Error('Telegram not configured')
-      const response = await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
+      const response = await fetch('/api/send-message', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({
-          chat_id: TG_CHAT_ID,
-          text: message,
-          parse_mode: 'HTML',
+          message,
         }),
       })
-
-      if (!response.ok) throw new Error('Telegram API Error')
+    
+      if (!response.ok) {
+        throw new Error('Message send error')
+      }
+    
       return response
     }
 
