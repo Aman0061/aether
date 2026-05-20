@@ -16,7 +16,7 @@ import ServicesPage from './components/ServicesPage'
 import Journal from './components/Journal'
 import Contact from './components/Contact'
 import NotFound from './components/NotFound'
-import Devs from './components/devs'
+import Devs from './components/Devs'
 
 // Хук для скролла вверх при переходе по страницам
 const ScrollToTop = () => {
